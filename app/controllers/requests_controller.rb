@@ -11,6 +11,29 @@ class RequestsController < ApplicationController
 
   end
 
+  def incoming
+    
+    number = params[:From]
+    user = User.where(["number = ?", @number]).first
+
+    if user
+
+      user_id = user.id
+
+      # Get your Account Sid and Auth Token from twilio.com/user/account 
+      account_sid = 'ACe141f2c62c8497956a83d0ffa61eca27'
+      auth_token = '7afb7431bb3d199bf07605c5c72271dc'
+      @client = Twilio::REST::Client.new account_sid, auth_token
+        
+      message = @client.account.sms.messages.create(:body => "We found your account. Your User ID: #{user_id}",
+          :to => user.number,     # Replace with your phone number
+          :from => "+12052676367")   # Replace with your Twilio number
+      puts message.sid
+
+    end
+
+  end
+
   # GET /requests/1
   # GET /requests/1.json
   def show
