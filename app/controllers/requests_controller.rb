@@ -16,7 +16,7 @@ class RequestsController < ApplicationController
     number = params[:From]
     user = User.where(["number = ?", @number]).first
 
-    if user
+    #if user
 
       user_id = user.id
 
@@ -30,7 +30,7 @@ class RequestsController < ApplicationController
           :from => "+12052676367")   # Replace with your Twilio number
       puts message.sid
 
-    end
+    #end
 
   end
 
