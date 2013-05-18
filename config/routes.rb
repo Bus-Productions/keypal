@@ -1,6 +1,7 @@
 Keypal::Application.routes.draw do
 
-  match "incoming" => "requests#incoming"
+  
+  match "requests/incoming" => "requests#incoming"
 
 
   resources :outbounds
