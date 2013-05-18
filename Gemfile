@@ -7,6 +7,9 @@ gem 'rails', '3.2.11'
 
 gem 'pg'
 
+require 'rubygems' # not necessary with ruby 1.9 but included for completeness
+require 'twilio-ruby'
+
 
 # Gems used only for assets and not required
 # in production environments by default.
