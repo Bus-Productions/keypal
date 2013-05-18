@@ -1,4 +1,13 @@
 Keypal::Application.routes.draw do
+  resources :outbounds
+
+
+  resources :keys
+
+
+  resources :users
+
+
   resources :requests
 
 

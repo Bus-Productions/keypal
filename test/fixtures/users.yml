@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  active: 1
+  level: 1
+  number: MyString
+  stripe_unique: MyString
+
+two:
+  active: 1
+  level: 1
+  number: MyString
+  stripe_unique: MyString
