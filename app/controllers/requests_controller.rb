@@ -14,7 +14,7 @@ class RequestsController < ApplicationController
   def incoming
     
     number = params[:From]
-    @user = User.where(["number = ?", number]).first
+    user = User.where(["number = ?", number]).first
     
     if user
       #handle the message
@@ -46,7 +46,7 @@ class RequestsController < ApplicationController
       elsif count == 2
         
         #store pwd
-        @key = Key.find_or_initialize_by_key_and_user_id(first_word, @user.id)
+        @key = Key.find_or_initialize_by_key_and_user_id(first_word, user.id)
         @key.update_attributes(:pass, second_word)
 
         @info_msg = Kptwilio.new(user.number, "+12052676367", "Created key with key: #{@key.key} and pass: #{@key.pass}")
