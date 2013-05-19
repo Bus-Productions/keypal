@@ -34,7 +34,7 @@ class RequestsController < ApplicationController
         message = @client.account.sms.messages.create(:body => "THIS IS THE HELP SCREEN",
           :to => user.number,     # Replace with your phone number
           :from => "+12052676367")   # Replace with your Twilio number
-        puts message.sid
+        #puts message.sid
 
       else
       
@@ -42,8 +42,17 @@ class RequestsController < ApplicationController
         message = @client.account.sms.messages.create(:body => "We found your account. Your User ID: #{user_id}",
             :to => user.number,     # Replace with your phone number
             :from => "+12052676367")   # Replace with your Twilio number
-        puts message.sid
+        #puts message.sid
       
+      end
+
+      words.each do |w|
+
+        message = @client.account.sms.messages.create(:body => "Word: #{w}",
+          :to => user.number,     # Replace with your phone number
+          :from => "+12052676367")   # Replace with your Twilio number
+        puts message.sid        
+
       end
 
     else
