@@ -15,11 +15,6 @@ class RequestsController < ApplicationController
     
     number = params[:From]
     user = User.where(["number = ?", number]).first
-
-    # Get your Account Sid and Auth Token from twilio.com/user/account 
-    account_sid = 'ACe141f2c62c8497956a83d0ffa61eca27'
-    auth_token = '7afb7431bb3d199bf07605c5c72271dc'
-    @client = Twilio::REST::Client.new account_sid, auth_token
     
     if user
       #handle the message
@@ -27,39 +22,39 @@ class RequestsController < ApplicationController
       @body = params[:Body]
       words = @body.split(/\W+/)
 
+      count = words.count
       first_word = words[0].gsub(" ", "")
+      if first_word == ''
+        first_word = words[1].gsub(" ", "")
+        --count
+      end
+      first_word.downcase!
 
       if first_word == 'info'
 
-        message = @client.account.sms.messages.create(:body => "THIS IS THE HELP SCREEN",
-          :to => user.number,     # Replace with your phone number
-          :from => "+12052676367")   # Replace with your Twilio number
-        #puts message.sid
+        @info_msg = Kptwilio.new(user.number, "+12052676367", "THIS IS THE INFO SCREEN")
+        @info_msg.send
+
+      elsif count == 1
+
+        #retrieve pwd
+
+      elsif count == 2
+        
+        #store pwd
 
       else
       
-        user_id = user.id
-        message = @client.account.sms.messages.create(:body => "We found your account. Your User ID: #{user_id}",
-            :to => user.number,     # Replace with your phone number
-            :from => "+12052676367")   # Replace with your Twilio number
-        #puts message.sid
+        @info_msg = Kptwilio.new(user.number, "+12052676367", "We found your account. Your User ID: #{user_id}")
+        @info_msg.send
       
       end
 
-      words.each do |w|
-
-        message = @client.account.sms.messages.create(:body => "Word: #{w}",
-          :to => user.number,     # Replace with your phone number
-          :from => "+12052676367")   # Replace with your Twilio number
-        puts message.sid        
-
-      end
-
     else
-      message = @client.account.sms.messages.create(:body => "We could not find your account. Visit http://keypal.herokuapp.com to Join.",
-          :to => number,     # Replace with your phone number
-          :from => "+12052676367")   # Replace with your Twilio number
-      puts message.sid
+      
+      @info_msg = Kptwilio.new(number, "+12052676367", "We could not find your account. Visit http://keypal.herokuapp.com to Join.")
+      @info_msg.send
+
     end
 
   end
@@ -134,4 +129,20 @@ class RequestsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+
+  #FUNCTIONS
+
+  private
+
+  def send_sms to_number, from_number, body
+
+    user_id = user.id
+        message = @client.account.sms.messages.create(:body => body,
+            :to => to_number,     # Replace with your phone number
+            :from => from_number)   # Replace with your Twilio number
+        puts message.sid
+
+  end
+
 end
