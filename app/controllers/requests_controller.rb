@@ -14,7 +14,7 @@ class RequestsController < ApplicationController
   def incoming
     
     number = params[:From]
-    user = User.where(["number = ?", number]).first
+    @user = User.where(["number = ?", number]).first
     
     if user
       #handle the message
@@ -24,9 +24,13 @@ class RequestsController < ApplicationController
 
       count = words.count
       first_word = words[0].gsub(" ", "")
+      second_word = ""
       if first_word == ''
         first_word = words[1].gsub(" ", "")
         --count
+        second_word = words[2]
+      else
+        second_word = words[1]
       end
       first_word.downcase!
 
@@ -42,6 +46,8 @@ class RequestsController < ApplicationController
       elsif count == 2
         
         #store pwd
+        @key = Key.find_or_initialize_by_key(first_word)
+        @key.update_attribute(:pass, second_word)
 
       else
       
@@ -51,7 +57,7 @@ class RequestsController < ApplicationController
       end
 
     else
-      
+
       @info_msg = Kptwilio.new(number, "+12052676367", "We could not find your account. Visit http://keypal.herokuapp.com to Join.")
       @info_msg.send
 
