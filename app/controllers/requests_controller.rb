@@ -47,7 +47,7 @@ class RequestsController < ApplicationController
         
         #store pwd
         @key = Key.find_or_initialize_by_key_and_user_id(first_word, user.id)
-        @key.update_attributes(:pass, second_word)
+        @key.update_attribute(:pass, second_word)
 
         @info_msg = Kptwilio.new(user.number, "+12052676367", "Created key with key: #{@key.key} and pass: #{@key.pass}")
         @info_msg.send
