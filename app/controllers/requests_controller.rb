@@ -22,11 +22,28 @@ class RequestsController < ApplicationController
     @client = Twilio::REST::Client.new account_sid, auth_token
     
     if user
-      user_id = user.id
-      message = @client.account.sms.messages.create(:body => "We found your account. Your User ID: #{user_id}",
+      #handle the message
+
+      @body = params[:Body]
+      words = @body.split(/\W+/)
+
+      if words[0] == 'help'
+
+        message = @client.account.sms.messages.create(:body => "THIS IS THE HELP SCREEN",
           :to => user.number,     # Replace with your phone number
           :from => "+12052676367")   # Replace with your Twilio number
-      puts message.sid
+        puts message.sid
+
+      else
+      
+        user_id = user.id
+        message = @client.account.sms.messages.create(:body => "We found your account. Your User ID: #{user_id}",
+            :to => user.number,     # Replace with your phone number
+            :from => "+12052676367")   # Replace with your Twilio number
+        puts message.sid
+      
+      end
+
     else
       message = @client.account.sms.messages.create(:body => "We could not find your account. Visit http://keypal.herokuapp.com to Join.",
           :to => number,     # Replace with your phone number
