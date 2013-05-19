@@ -27,7 +27,7 @@ class RequestsController < ApplicationController
       @body = params[:Body]
       words = @body.split(/\W+/)
 
-      if words[0] == 'info'
+      if (words[0]).gsub!(/\s/,'') == 'info'
 
         message = @client.account.sms.messages.create(:body => "THIS IS THE HELP SCREEN",
           :to => user.number,     # Replace with your phone number
