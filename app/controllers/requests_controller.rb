@@ -81,8 +81,12 @@ class RequestsController < ApplicationController
         #retrieve pwd
         @key = Key.find_by_key_and_user_id(first_word, user.id)
 
+        secret = Digest::SHA1.hexdigest("fwheoiahf872634871hiaufheiw_foeiahw21")
+        c = ActiveSupport::MessageEncryptor.new(secret)
+        decryptedBlock = c.decrypt(@key.pass)
+
         if @key
-          @info_msg = Kptwilio.new(user.number, "+12052676367", "#{@key.key}: #{@key.pass}")
+          @info_msg = Kptwilio.new(user.number, "+12052676367", "#{@key.key}: #{decryptedBlock}")
           @info_msg.send
         else
           @info_msg = Kptwilio.new(user.number, "+12052676367", "That key does not exist. If you'd like to see all your keys, text us 'all'.")
@@ -93,7 +97,12 @@ class RequestsController < ApplicationController
         
         #store pwd
         @key = Key.find_or_initialize_by_key_and_user_id(first_word, user.id)
-        @key.update_attribute(:pass, second_word)
+
+        secret = Digest::SHA1.hexdigest("fwheoiahf872634871hiaufheiw_foeiahw21")
+        a = ActiveSupport::MessageEncryptor.new(secret)
+        encryptedBlock = a.encrypt(second_word)
+
+        @key.update_attribute(:pass, encryptedBlock)
 
         @info_msg = Kptwilio.new(user.number, "+12052676367", "Groovy. We've got your password for '#{@key.key}' stored safe and sound.")
         @info_msg.send

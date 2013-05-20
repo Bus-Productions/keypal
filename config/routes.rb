@@ -5,6 +5,8 @@ Keypal::Application.routes.draw do
 
   match 'users/verify' => 'users#verify', :as => "verify"
 
+  match 'users/login' => 'users#login'
+
 
   resources :outbounds
 
