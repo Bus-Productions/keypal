@@ -116,7 +116,7 @@ class RequestsController < ApplicationController
         
         key_secret = Digest::SHA1.hexdigest("iuhewgiuawfe_9876312476312_asjhd")
         key_a = ActiveSupport::MessageEncryptor.new(key_secret)
-        key_encryptedBlock = a.encrypt(first_word)
+        key_encryptedBlock = key_a.encrypt(first_word)
 
         #store pwd
         @key = Key.find_or_initialize_by_key_and_user_id(key_encryptedBlock, user.id)
