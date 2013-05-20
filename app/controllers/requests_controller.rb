@@ -56,7 +56,7 @@ class RequestsController < ApplicationController
         #retrieve pwd
         @keys = Key.find_all_by_user_id(user.id)
 
-        key_secret = Digest::SHA1.hexdigest("iuhewgiuawfe_9876312476312_asjhd")
+        key_secret = "520d72ebd3484bfc6862d7da304e436e5df9cd68"
         key_a = ActiveSupport::MessageEncryptor.new(key_secret)
 
         keys_string = "All Your Keys:"
@@ -73,7 +73,7 @@ class RequestsController < ApplicationController
         second_word.downcase!
         #delete key
 
-        key_secret = Digest::SHA1.hexdigest("iuhewgiuawfe_9876312476312_asjhd")
+        key_secret = "520d72ebd3484bfc6862d7da304e436e5df9cd68"
         key_a = ActiveSupport::MessageEncryptor.new(key_secret)
         key_encryptedBlock = key_a.encrypt(second_word)
         
@@ -91,7 +91,7 @@ class RequestsController < ApplicationController
 
       elsif count == 1 #RETRIEVE PASSWORD
 
-        key_secret = Digest::SHA1.hexdigest("iuhewgiuawfe_9876312476312_asjhd")
+        key_secret = "520d72ebd3484bfc6862d7da304e436e5df9cd68"
         key_a = ActiveSupport::MessageEncryptor.new(key_secret)
         key_encryptedBlock = key_a.encrypt(first_word)
 
@@ -101,7 +101,7 @@ class RequestsController < ApplicationController
         if @key
           key_decryptedBlock = key_a.decrypt(@key.key)
 
-          secret = Digest::SHA1.hexdigest("fwheoiahf872634871hiaufheiw_foeiahw21")
+          secret = "59bdc5661fcdbc7de3f54bba1bcf8c24f558df85"
           c = ActiveSupport::MessageEncryptor.new(secret)
           decryptedBlock = c.decrypt(@key.pass)
 
@@ -117,14 +117,14 @@ class RequestsController < ApplicationController
 
       elsif count == 2 #STORE PASSWORD
         
-        key_secret = Digest::SHA1.hexdigest("iuhewgiuawfe_9876312476312_asjhd")
+        key_secret = "520d72ebd3484bfc6862d7da304e436e5df9cd68"
         key_a = ActiveSupport::MessageEncryptor.new(key_secret)
         key_encryptedBlock = key_a.encrypt(first_word)
 
         #store pwd
         @key = Key.find_or_initialize_by_key_and_user_id(key_encryptedBlock, user.id)
 
-        secret = Digest::SHA1.hexdigest("fwheoiahf872634871hiaufheiw_foeiahw21")
+        secret = "59bdc5661fcdbc7de3f54bba1bcf8c24f558df85"
         a = ActiveSupport::MessageEncryptor.new(secret)
         encryptedBlock = a.encrypt(second_word)
 
