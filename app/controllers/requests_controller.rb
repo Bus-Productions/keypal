@@ -24,7 +24,7 @@ class RequestsController < ApplicationController
 
       count = words.count
       
-      first_word = words[0].gsub(" ", "")
+      first_word = words[0]
       first_word.downcase!
       first_word.gsub(" ", "")!
       first_word.gsub(",", "")!
@@ -34,7 +34,7 @@ class RequestsController < ApplicationController
 
       second_word = ""
       if count > 1
-        second_word = second_word = words[1]
+        second_word = words[1]
       end
 
       #if first_word == ''
