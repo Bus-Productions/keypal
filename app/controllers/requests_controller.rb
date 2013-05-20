@@ -59,6 +59,19 @@ class RequestsController < ApplicationController
         @info_msg = Kptwilio.new(user.number, "+12052676367", "#{@key.key}: #{@key.pass}")
         @info_msg.send
 
+      elsif first_word == 'all' || first_word == 'keys'
+
+        #retrieve pwd
+        @keys = Key.find_all_by_user_id(user.id)
+
+        keys_string = "All Your Keys:"
+        @keys.each do |k|
+          keys_string = "#{keys_string}\n#{k}"
+        end
+
+        @info_msg = Kptwilio.new(user.number, "+12052676367", keys_string)
+        @info_msg.send
+
       elsif count == 2
         
         #store pwd
