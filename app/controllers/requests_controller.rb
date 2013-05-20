@@ -56,9 +56,13 @@ class RequestsController < ApplicationController
         #retrieve pwd
         @keys = Key.find_all_by_user_id(user.id)
 
+        key_secret = Digest::SHA1.hexdigest("iuhewgiuawfe_9876312476312_asjhd")
+        key_a = ActiveSupport::MessageEncryptor.new(key_secret)
+
         keys_string = "All Your Keys:"
         @keys.each do |k|
-          keys_string = "#{keys_string}\n#{k.key}"
+          key_decryptedBlock = key_a.decrypt(k.key)
+          keys_string = "#{keys_string}\n#{key_decryptedBlock}"
         end
 
         @info_msg = Kptwilio.new(user.number, "+12052676367", keys_string)
@@ -69,12 +73,21 @@ class RequestsController < ApplicationController
         second_word.downcase!
         #delete key
 
-        @key = Key.find_by_user_id_and_key(user.id, second_word)
-        key_string = @key.key
-        @key.destroy
+        key_secret = Digest::SHA1.hexdigest("iuhewgiuawfe_9876312476312_asjhd")
+        key_a = ActiveSupport::MessageEncryptor.new(key_secret)
+        key_encryptedBlock = key_a.encrypt(second_word)
+        
+        @key = Key.find_by_user_id_and_key(user.id, key_encryptedBlock)
 
-        @info_msg = Kptwilio.new(user.number, "+12052676367", "We just deleted the password associated with the '#{key_string}' key.")
-        @info_msg.send
+        if @key
+          key_string = key_a.decrypt(@key.key)
+          @key.destroy
+          @info_msg = Kptwilio.new(user.number, "+12052676367", "We just deleted the password associated with the '#{key_string}' key.")
+          @info_msg.send
+        else
+          @info_msg = Kptwilio.new(user.number, "+12052676367", "That key has already been deleted.")
+          @info_msg.send
+        end
 
       elsif count == 1 #RETRIEVE PASSWORD
 

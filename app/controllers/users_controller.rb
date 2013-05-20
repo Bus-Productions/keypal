@@ -41,7 +41,8 @@ class UsersController < ApplicationController
   # POST /users.json
   def create
     number = params[:user][:number]
-    @user = User.find_or_initialize_by_number("+1#{number}")
+    full_number = "+1#{number}"
+    @user = User.find_or_initialize_by_number(full_number)
 
     if @user.save
       
