@@ -56,7 +56,7 @@ class UsersController < ApplicationController
       session[:saved_number] = @user.number
       session[:logged_in] = false
 
-      @info_msg = Kptwilio.new(user.number, "+12052676367", "Welcome back. Enter this verification code so we know it's you:\n\n#{verify_code}")
+      @info_msg = Kptwilio.new(@user.number, "+12052676367", "Welcome back. Enter this verification code so we know it's you:\n\n#{verify_code}")
       @info_msg.send
 
       redirect_to verify_url
