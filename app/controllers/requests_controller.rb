@@ -26,11 +26,11 @@ class RequestsController < ApplicationController
       
       first_word = words[0]
       first_word.downcase!
-      first_word.gsub(" ", "")!
-      first_word.gsub(",", "")!
-      first_word.gsub(";", "")!
-      first_word.gsub(":", "")!
-      first_word.gsub(".", "")!
+      first_word = first_word.gsub(" ", "")
+      first_word = first_word.gsub(",", "")
+      first_word = first_word.gsub(";", "")
+      first_word = first_word.gsub(":", "")
+      first_word = first_word.gsub(".", "")
 
       second_word = ""
       if count > 1
