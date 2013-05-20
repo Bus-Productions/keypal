@@ -48,7 +48,7 @@ class RequestsController < ApplicationController
 
       if first_word == 'info' || first_word == 'help'
 
-        @info_msg = Kptwilio.new(user.number, "+12052676367", "THIS IS THE INFO SCREEN")
+        @info_msg = Kptwilio.new(user.number, "+12052676367", "Text 'all' or 'keys' to see all your keys.\n\nTo store a new key, send us a text like this:\nsamplekey samplepassword\n\nText 'help' for help.")
         @info_msg.send
 
       elsif first_word == 'all' || first_word == 'keys'
