@@ -85,12 +85,13 @@ class RequestsController < ApplicationController
         #retrieve pwd
         @key = Key.find_by_key_and_user_id(key_encryptedBlock, user.id)
 
-        secret = Digest::SHA1.hexdigest("fwheoiahf872634871hiaufheiw_foeiahw21")
-        c = ActiveSupport::MessageEncryptor.new(secret)
-        decryptedBlock = c.decrypt(@key.pass)
-
         if @key
           key_decryptedBlock = key_a.decrypt(@key.key)
+
+          secret = Digest::SHA1.hexdigest("fwheoiahf872634871hiaufheiw_foeiahw21")
+          c = ActiveSupport::MessageEncryptor.new(secret)
+          decryptedBlock = c.decrypt(@key.pass)
+
           @info_msg = Kptwilio.new(user.number, "+12052676367", "#{key_decryptedBlock}: #{decryptedBlock}")
           @info_msg.send
         else
