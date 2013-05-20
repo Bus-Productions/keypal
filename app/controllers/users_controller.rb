@@ -1,7 +1,13 @@
 class UsersController < ApplicationController
   # GET /users
   # GET /users.json
+  
   def index
+    
+  end
+
+
+  def list_all
     @users = User.all
 
     respond_to do |format|
@@ -40,18 +46,56 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
-    @user = User.new(params[:user])
+    number = params[:number]
+    @user = User.find_or_initialize_by_number("+1#{number}")
 
-    respond_to do |format|
-      if @user.save
-        format.html { redirect_to @user, notice: 'User was successfully created.' }
-        format.json { render json: @user, status: :created, location: @user }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
-      end
+    if @user
+      
+      verify_code = rand(10**6)  
+      session[:verify_code] = verify_code
+      session[:saved_number] = @user.number
+      session[:logged_in] = false
+
+      @info_msg = Kptwilio.new(user.number, "+12052676367", "Welcome back. Enter this verification code so we know it's you:\n\n#{verify_code}")
+      @info_msg.send
+
+      redirect_to verify_url
+
+    else 
+      
+      verify_code = rand(10**12)
+      session[:verify_code] = verify_code
+      session[:saved_number] = 500
+      session[:logged_in] = false
+
+      format.html { render action: "index" }
+      format.json { render json: @request.errors, status: :unprocessable_entity }
+
     end
+
   end
+
+
+
+  def verify
+  end
+
+
+  def login
+    number = session[:saved_number]
+    verify_code = session[:verify_code]
+    submitted_code = params[:verify_code]
+
+    if submitted_code == verify_code
+      #verified
+      session[:logged_in] = true
+      @user = User.find_by_number(number)
+      redirect_to @user
+    end    
+
+  end
+
+
 
   # PUT /users/1
   # PUT /users/1.json

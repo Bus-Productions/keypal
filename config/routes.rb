@@ -3,6 +3,8 @@ Keypal::Application.routes.draw do
   
   match "requests/incoming" => "requests#incoming"
 
+  match 'users/verify' => 'users#verify', :as => "verify"
+
 
   resources :outbounds
 

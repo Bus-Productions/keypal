@@ -1,0 +1,5 @@
+<%= form_tag("/users/login", :method => "post") do %>
+  <%= label_tag(:verify_code, "Verification Code:") %>
+  <%= text_field_tag(:verify_code) %>
+  <%= submit_tag("Verify") %>
+<% end %>
