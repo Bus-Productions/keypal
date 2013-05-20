@@ -64,6 +64,18 @@ class RequestsController < ApplicationController
         @info_msg = Kptwilio.new(user.number, "+12052676367", keys_string)
         @info_msg.send
 
+      elsif first_word == 'delete'
+
+        second_word.downcase!
+        #delete key
+
+        @key = Key.find_by_user_id_and_key(user.id, second_word)
+        key_string = @key.key
+        @key.destroy
+
+        @info_msg = Kptwilio.new(user.number, "+12052676367", "We just deleted the password associated with the '#{key_string}' key.")
+        @info_msg.send
+
       elsif count == 1
 
         #retrieve pwd
