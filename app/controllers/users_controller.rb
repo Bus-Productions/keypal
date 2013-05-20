@@ -3,7 +3,7 @@ class UsersController < ApplicationController
   # GET /users.json
   
   def index
-    
+    @user = User.new
   end
 
 
