@@ -58,7 +58,7 @@ class RequestsController < ApplicationController
 
         keys_string = "All Your Keys:"
         @keys.each do |k|
-          keys_string = "#{keys_string}\n#{k}"
+          keys_string = "#{keys_string}\n#{k.key}"
         end
 
         @info_msg = Kptwilio.new(user.number, "+12052676367", keys_string)
