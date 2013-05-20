@@ -54,6 +54,10 @@ class RequestsController < ApplicationController
       elsif count == 1
 
         #retrieve pwd
+        @key = Key.find_by_key_and_user_id(first_word, user.id)
+
+        @info_msg = Kptwilio.new(user.number, "+12052676367", "#{@key.key}: #{@key.pass}")
+        @info_msg.send
 
       elsif count == 2
         
@@ -61,12 +65,12 @@ class RequestsController < ApplicationController
         @key = Key.find_or_initialize_by_key_and_user_id(first_word, user.id)
         @key.update_attribute(:pass, second_word)
 
-        @info_msg = Kptwilio.new(user.number, "+12052676367", "Created key with key: #{@key.key} and pass: #{@key.pass}")
+        @info_msg = Kptwilio.new(user.number, "+12052676367", "Groovy. We've got your password for '#{@key.key}' stored safe and sound.")
         @info_msg.send
 
       else
       
-        @info_msg = Kptwilio.new(user.number, "+12052676367", "We found your account. Your User ID: #{user_id}")
+        @info_msg = Kptwilio.new(user.number, "+12052676367", "Unrecognized command. Text 'info' for more help.")
         @info_msg.send
       
       end
