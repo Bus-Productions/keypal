@@ -20,19 +20,31 @@ class RequestsController < ApplicationController
       #handle the message
 
       @body = params[:Body]
-      words = @body.split(/\W+/)
+      words = @body.split
 
       count = words.count
+      
       first_word = words[0].gsub(" ", "")
-      second_word = ""
-      if first_word == ''
-        first_word = words[1].gsub(" ", "")
-        --count
-        second_word = words[2]
-      else
-        second_word = words[1]
-      end
       first_word.downcase!
+      first_word.gsub(" ", "")!
+      first_word.gsub(",", "")!
+      first_word.gsub(";", "")!
+      first_word.gsub(":", "")!
+      first_word.gsub(".", "")!
+
+      second_word = ""
+      if count > 1
+        second_word = second_word = words[1]
+      end
+
+      #if first_word == ''
+      #  first_word = words[1].gsub(" ", "")
+      #  --count
+      #  second_word = words[2]
+      #else
+      #  second_word = words[1]
+      #end
+      #first_word.downcase!
 
       if first_word == 'info'
 
