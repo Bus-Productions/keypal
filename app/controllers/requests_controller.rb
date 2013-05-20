@@ -76,27 +76,36 @@ class RequestsController < ApplicationController
         @info_msg = Kptwilio.new(user.number, "+12052676367", "We just deleted the password associated with the '#{key_string}' key.")
         @info_msg.send
 
-      elsif count == 1
+      elsif count == 1 #RETRIEVE PASSWORD
+
+        key_secret = Digest::SHA1.hexdigest("iuhewgiuawfe_9876312476312_asjhd")
+        key_a = ActiveSupport::MessageEncryptor.new(key_secret)
+        key_encryptedBlock = a.encrypt(first_word)
 
         #retrieve pwd
-        @key = Key.find_by_key_and_user_id(first_word, user.id)
+        @key = Key.find_by_key_and_user_id(key_encryptedBlock, user.id)
 
         secret = Digest::SHA1.hexdigest("fwheoiahf872634871hiaufheiw_foeiahw21")
         c = ActiveSupport::MessageEncryptor.new(secret)
         decryptedBlock = c.decrypt(@key.pass)
 
         if @key
-          @info_msg = Kptwilio.new(user.number, "+12052676367", "#{@key.key}: #{decryptedBlock}")
+          key_decryptedBlock = key_a.decrypt(@key.key)
+          @info_msg = Kptwilio.new(user.number, "+12052676367", "#{key_decryptedBlock}: #{decryptedBlock}")
           @info_msg.send
         else
           @info_msg = Kptwilio.new(user.number, "+12052676367", "That key does not exist. If you'd like to see all your keys, text us 'all'.")
           @info_msg.send
         end
 
-      elsif count == 2
+      elsif count == 2 #STORE PASSWORD
         
+        key_secret = Digest::SHA1.hexdigest("iuhewgiuawfe_9876312476312_asjhd")
+        key_a = ActiveSupport::MessageEncryptor.new(key_secret)
+        key_encryptedBlock = a.encrypt(first_word)
+
         #store pwd
-        @key = Key.find_or_initialize_by_key_and_user_id(first_word, user.id)
+        @key = Key.find_or_initialize_by_key_and_user_id(key_encryptedBlock, user.id)
 
         secret = Digest::SHA1.hexdigest("fwheoiahf872634871hiaufheiw_foeiahw21")
         a = ActiveSupport::MessageEncryptor.new(secret)
@@ -104,7 +113,9 @@ class RequestsController < ApplicationController
 
         @key.update_attribute(:pass, encryptedBlock)
 
-        @info_msg = Kptwilio.new(user.number, "+12052676367", "Groovy. We've got your password for '#{@key.key}' stored safe and sound.")
+        key_decryptedBlock = key_a.decrypt(@key.key)
+
+        @info_msg = Kptwilio.new(user.number, "+12052676367", "Groovy. We've got your password for '#{key_decryptedBlock}' stored safe and sound.")
         @info_msg.send
 
       else
