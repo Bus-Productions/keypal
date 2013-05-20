@@ -51,14 +51,6 @@ class RequestsController < ApplicationController
         @info_msg = Kptwilio.new(user.number, "+12052676367", "THIS IS THE INFO SCREEN")
         @info_msg.send
 
-      elsif count == 1
-
-        #retrieve pwd
-        @key = Key.find_by_key_and_user_id(first_word, user.id)
-
-        @info_msg = Kptwilio.new(user.number, "+12052676367", "#{@key.key}: #{@key.pass}")
-        @info_msg.send
-
       elsif first_word == 'all' || first_word == 'keys'
 
         #retrieve pwd
@@ -71,6 +63,19 @@ class RequestsController < ApplicationController
 
         @info_msg = Kptwilio.new(user.number, "+12052676367", keys_string)
         @info_msg.send
+
+      elsif count == 1
+
+        #retrieve pwd
+        @key = Key.find_by_key_and_user_id(first_word, user.id)
+
+        if @key
+          @info_msg = Kptwilio.new(user.number, "+12052676367", "#{@key.key}: #{@key.pass}")
+          @info_msg.send
+        else
+          @info_msg = Kptwilio.new(user.number, "+12052676367", "That key does not exist. If you'd like to see all your keys, text us 'all'.")
+          @info_msg.send
+        end
 
       elsif count == 2
         
