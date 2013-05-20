@@ -46,7 +46,7 @@ class RequestsController < ApplicationController
       #end
       #first_word.downcase!
 
-      if first_word == 'info'
+      if first_word == 'info' || first_word == 'help'
 
         @info_msg = Kptwilio.new(user.number, "+12052676367", "THIS IS THE INFO SCREEN")
         @info_msg.send
