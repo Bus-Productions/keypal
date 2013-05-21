@@ -14,7 +14,8 @@ class RequestsController < ApplicationController
   def incoming
     
     number = params[:From]
-    user = User.where(["number = ?", number]).first
+    encrypted_number = Digest::SHA1.hexdigest("#{number}sm1thsbeach_21_wls")
+    user = User.where(["number = ?", encrypted_number]).first
     
     if user
       #handle the message
@@ -48,7 +49,7 @@ class RequestsController < ApplicationController
 
       if first_word == 'info' || first_word == 'help'
 
-        @info_msg = Kptwilio.new(user.number, "+12052676367", "Store a key:\nskey password\n\nTo retrieve a password, send us a key.\n\nText 'all' or 'keys' to see all your keys.\n\nText 'info' for help.")
+        @info_msg = Kptwilio.new(number, "+12052676367", "Store a key:\nskey password\n\nTo retrieve a password, send us a key.\n\nText 'all' or 'keys' to see all your keys.\n\nText 'info' for help.")
         @info_msg.send
 
       elsif first_word == 'all' || first_word == 'keys'
@@ -65,7 +66,7 @@ class RequestsController < ApplicationController
           keys_string = "#{keys_string}\n#{key_decryptedBlock}"
         end
 
-        @info_msg = Kptwilio.new(user.number, "+12052676367", keys_string)
+        @info_msg = Kptwilio.new(number, "+12052676367", keys_string)
         @info_msg.send
 
       elsif first_word == 'delete'
@@ -92,10 +93,10 @@ class RequestsController < ApplicationController
         if @key
           key_string = key_a.decrypt(@key.key)
           @key.destroy
-          @info_msg = Kptwilio.new(user.number, "+12052676367", "We just deleted the password associated with the '#{key_string}' key.")
+          @info_msg = Kptwilio.new(number, "+12052676367", "We just deleted the password associated with the '#{key_string}' key.")
           @info_msg.send
         else
-          @info_msg = Kptwilio.new(user.number, "+12052676367", "That key has already been deleted.")
+          @info_msg = Kptwilio.new(number, "+12052676367", "That key has already been deleted.")
           @info_msg.send
         end
 
@@ -125,10 +126,10 @@ class RequestsController < ApplicationController
           c = ActiveSupport::MessageEncryptor.new(secret)
           decryptedBlock = c.decrypt(@key.pass)
 
-          @info_msg = Kptwilio.new(user.number, "+12052676367", "#{key_decryptedBlock}: #{decryptedBlock}")
+          @info_msg = Kptwilio.new(number, "+12052676367", "#{key_decryptedBlock}: #{decryptedBlock}")
           @info_msg.send
         else
-          @info_msg = Kptwilio.new(user.number, "+12052676367", "That key does not exist. If you'd like to see all your keys, text us 'all'.")
+          @info_msg = Kptwilio.new(number, "+12052676367", "That key does not exist. If you'd like to see all your keys, text us 'all'.")
           @info_msg.send
         end
 
@@ -149,12 +150,12 @@ class RequestsController < ApplicationController
 
         key_decryptedBlock = key_a.decrypt(@key.key)
 
-        @info_msg = Kptwilio.new(user.number, "+12052676367", "Groovy. We've got your password for '#{key_decryptedBlock}' stored safe and sound.")
+        @info_msg = Kptwilio.new(number, "+12052676367", "Groovy. We've got your password for '#{key_decryptedBlock}' stored safe and sound.")
         @info_msg.send
 
       else
       
-        @info_msg = Kptwilio.new(user.number, "+12052676367", "Unrecognized command. Text 'info' for more help.")
+        @info_msg = Kptwilio.new(number, "+12052676367", "Unrecognized command. Text 'info' for more help.")
         @info_msg.send
       
       end

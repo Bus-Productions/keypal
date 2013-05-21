@@ -42,16 +42,17 @@ class UsersController < ApplicationController
   def create
     number = params[:user][:number]
     full_number = "+1#{number}"
-    @user = User.find_or_initialize_by_number(full_number)
+    encrypted_number = Digest::SHA1.hexdigest("#{full_number}sm1thsbeach_21_wls")
+    @user = User.find_or_initialize_by_number(encrypted_number)
 
     if @user.save
       
       verify_code = rand(10**6)  
       session[:verify_code] = verify_code
-      session[:saved_number] = @user.number
+      session[:saved_number] = full_number
       session[:logged_in] = false
 
-      @info_msg = Kptwilio.new(@user.number, "+12052676367", "Welcome back. Enter this verification code so we know it's you:\n\n#{verify_code}")
+      @info_msg = Kptwilio.new(full_number, "+12052676367", "Welcome back. Enter this verification code so we know it's you:\n\n#{verify_code}")
       @info_msg.send
 
       redirect_to verify_url
@@ -78,13 +79,14 @@ class UsersController < ApplicationController
 
   def login
     @number = session[:saved_number]
+    encrypted_number = Digest::SHA1.hexdigest("#{@number}sm1thsbeach_21_wls")
     @verify_code = session[:verify_code]
     @submitted_code = params[:verify_code]
 
     if @submitted_code.to_i == @verify_code.to_i
       #verified
       session[:logged_in] = true
-      @user = User.find_by_number(@number)
+      @user = User.find_by_number(encrypted_number)
       redirect_to @user
     end
 
