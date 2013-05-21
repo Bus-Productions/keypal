@@ -10,5 +10,10 @@
 
 <p>
   <b>Account Plan:</b>
-  <%= @user.level %>
+  	<div class="btn-group">
+	  <button class="btn btn-primary <% if @user.level == 0 puts 'disabled' end %>">None</button>
+	  <button class="btn btn-primary <% if @user.level == 1 puts 'disabled' end %>">Starter</button>
+	  <button class="btn btn-primary <% if @user.level == 2 puts 'disabled' end %>">Pro</button>
+	  <button class="btn btn-primary <% if @user.level == 3 puts 'disabled' end %>">Platinum</button>
+	</div>
 </p>
