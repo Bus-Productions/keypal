@@ -1,25 +1,14 @@
-<p id="notice"><%= notice %></p>
+<p>Welcome (whoever you are).</p>
+<p>We don't know who you are. And that's a good thing. The only piece of information that ties you to us is your mobile phone number. And we encrypt it. We actually don't know what your number is. We can't see it. We don't want to see it. That way hackers can't see it.</p>
+<p>We encrypt everything you send us.</p>
+<p>You turn your number, keys, and passwords into gobbly-gook so that nobody knows your secrets.</p>
 
 <p>
-  <b>Active:</b>
+  <b>Account Status:</b>
   <%= @user.active %>
 </p>
 
 <p>
-  <b>Level:</b>
+  <b>Account Plan:</b>
   <%= @user.level %>
 </p>
-
-<p>
-  <b>Number:</b>
-  <%= @user.number %>
-</p>
-
-<p>
-  <b>Stripe unique:</b>
-  <%= @user.stripe_unique %>
-</p>
-
-
-<%= link_to 'Edit', edit_user_path(@user) %> |
-<%= link_to 'Back', users_path %>

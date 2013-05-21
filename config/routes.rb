@@ -7,6 +7,8 @@ Keypal::Application.routes.draw do
 
   match 'users/login' => 'users#login'
 
+  match 'users/list_all' => 'users#list_all'
+
 
   resources :outbounds
 
