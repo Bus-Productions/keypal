@@ -73,11 +73,21 @@ class RequestsController < ApplicationController
         second_word.downcase!
         #delete key
 
+        #key_secret = "520d72ebd3484bfc6862d7da304e436e5df9cd68"
+        #key_a = ActiveSupport::MessageEncryptor.new(key_secret)
+        #key_encryptedBlock = key_a.encrypt(second_word)
+        
+        @keys = Key.find_all_by_user_id(user.id)
+        @key = nil
         key_secret = "520d72ebd3484bfc6862d7da304e436e5df9cd68"
         key_a = ActiveSupport::MessageEncryptor.new(key_secret)
-        key_encryptedBlock = key_a.encrypt(second_word)
-        
-        @key = Key.find_by_user_id_and_key(user.id, key_encryptedBlock)
+        @keys.each do |k|
+          key_decryptedBlock = key_a.decrypt(k.key)
+          if key_decryptedBlock == second_word
+            @key = k
+          end
+          break if key_decryptedBlock == second_word
+        end
 
         if @key
           key_string = key_a.decrypt(@key.key)
