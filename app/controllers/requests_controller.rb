@@ -122,9 +122,6 @@ class RequestsController < ApplicationController
           @info_msg.send
         end
 
-        @info_msg = Kptwilio.new(user.number, "+12052676367", key_encryptedBlock)
-        @info_msg.send
-
       elsif count == 2 #STORE PASSWORD
         
         key_secret = "520d72ebd3484bfc6862d7da304e436e5df9cd68"
