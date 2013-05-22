@@ -88,7 +88,7 @@ class UsersController < ApplicationController
       session[:logged_in] = true
       @user = User.find_by_number(encrypted_number)
 
-      @info_msg = Kptwilio.new(full_number, "+12052676367", "You're verified. Neat-o! Text this number to store & retrieve keys.")
+      @info_msg = Kptwilio.new(@number, "+12052676367", "You're verified. Neat-o! Text this number to store & retrieve keys. Text 'info' for help.")
       @info_msg.send
 
       redirect_to @user
