@@ -49,7 +49,7 @@ class RequestsController < ApplicationController
 
       if first_word == 'info' || first_word == 'help'
 
-        @info_msg = Kptwilio.new(number, "+12052676367", "Store a key:\nskey password\n\nTo retrieve a password, send us a key.\n\nText 'all' or 'keys' to see all your keys.\n\nText 'info' for help.")
+        @info_msg = Kptwilio.new(number, "+12052676367", "Store a key:\nkey password\n\nTo retrieve a password, send us a key.\n\nText 'all' or 'keys' to see all your keys.\n\nText 'info' for help.")
         @info_msg.send
 
       elsif first_word == 'all' || first_word == 'keys'
