@@ -37,7 +37,7 @@ class ChargesController < ApplicationController
 
 		rescue Stripe::CardError => e
 		  flash[:error] = e.message
-		  redirect_to @user, notice: 'The charge could not be completed.'
+		  redirect_to @user, notice: 'The charge could not be completed. Please try again.'
 
 	end
 
