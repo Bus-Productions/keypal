@@ -49,7 +49,7 @@ class RequestsController < ApplicationController
 
       if first_word == 'info' || first_word == 'help'
 
-        @info_msg = Kptwilio.new(number, "+12052676367", "Store a key:\nkey password\n\nTo retrieve a password, send us a key.\n\nText 'all' or 'keys' to see all your keys.\n\nText 'info' for help.")
+        @info_msg = Kptwilio.new(number, "+12052676367", "Store a key:\nkey password\n\nRetrieve a password:\nkey\n\nList all your keys:\nall\n\nVisit http://www.keypalapp.com/help for all commands.")
         @info_msg.send
 
       elsif first_word == 'all' || first_word == 'keys'
@@ -155,14 +155,14 @@ class RequestsController < ApplicationController
 
       else
       
-        @info_msg = Kptwilio.new(number, "+12052676367", "Unrecognized command. Text 'info' for more help.")
+        @info_msg = Kptwilio.new(number, "+12052676367", "Unrecognized command. Text 'info' for more help or visit http://www.keypalapp.com/help for all commands.")
         @info_msg.send
       
       end
 
     else
 
-      @info_msg = Kptwilio.new(number, "+12052676367", "We could not find your account. Visit http://keypalapp.com to Join.")
+      @info_msg = Kptwilio.new(number, "+12052676367", "We could not find your account. Visit http://www.keypalapp.com to Join.")
       @info_msg.send
 
     end
