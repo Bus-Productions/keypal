@@ -27,7 +27,7 @@ class UsersController < ApplicationController
     if session[:logged_in] && ( @user.number.to_i == session[:saved_number].to_i )
         #logged in
         @active = @user.active
-        
+
         respond_to do |format|
           format.html # show.html.erb
           format.json { render json: @user }
@@ -43,6 +43,15 @@ class UsersController < ApplicationController
   # POST /users.json
   def create
     number = params[:user][:number]
+    number = number.gsub(" ", "")
+    number = number.gsub("(", "")
+    number = number.gsub(")", "")
+    number = number.gsub("+", "")
+    number = number.gsub("[", "")
+    number = number.gsub("]", "")
+    number = number.gsub(".", "")
+    number = number.gsub(",", "")
+
     full_number = "+1#{number}"
     encrypted_number = Digest::SHA1.hexdigest("#{full_number}sm1thsbeach_21_wls")
     @user = User.find_or_initialize_by_number(encrypted_number)
