@@ -162,7 +162,7 @@ class RequestsController < ApplicationController
 
     else
 
-      @info_msg = Kptwilio.new(number, "+12052676367", "We could not find your account. Visit http://keypal.herokuapp.com to Join.")
+      @info_msg = Kptwilio.new(number, "+12052676367", "We could not find your account. Visit http://keypalapp.com to Join.")
       @info_msg.send
 
     end
