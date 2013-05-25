@@ -14,8 +14,6 @@
 //= require jquery_ujs
 //= require bootstrap
 //= require_tree .
-
-
 $('#starter').click( function() {
       
       var token = function(res) {
