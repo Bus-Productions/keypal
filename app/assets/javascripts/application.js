@@ -15,8 +15,10 @@
 //= require bootstrap
 //= require_tree .
 
-$('#starter').click(function(){
-      var token = function(res){
+
+$('#starter').click( function() {
+      
+      var token = function(res) {
         var $input = $('<input type=hidden name=stripeToken />').val(res.id);
         $('form').append($input).submit();
       };
@@ -28,7 +30,7 @@ $('#starter').click(function(){
         currency:    'usd',
         name:        'KeyPal Starter',
         description: 'The starter plan for KeyPal',
-        plan: 		 'starter'
+        plan: 		 'starter',
         panelLabel:  'Checkout',
         token:       token
       });
