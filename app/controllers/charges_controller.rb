@@ -19,15 +19,14 @@ class ChargesController < ApplicationController
 	    :currency    => 'usd'
 	  )
 
-	rescue Stripe::CardError => e
-	  flash[:error] = e.message
-	  redirect_to charges_path
+	  user_id = session[:user_id]
+	  @user = User.find_by_id(user_id)
+	  @user.update_attributes(:stripe_unique => customer.id, :active => 1, :level => 1)
+
+		rescue Stripe::CardError => e
+		  flash[:error] = e.message
+		  redirect_to charges_path
+		  
 	end
-
-	user_id = session[:user_id]
-
-	@user = User.find_by_id(user_id)
-
-	@user.update_attribute(:stripe_unique, customer.id)
 
 end
