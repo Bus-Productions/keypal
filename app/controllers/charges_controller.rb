@@ -25,7 +25,7 @@ class ChargesController < ApplicationController
 	  @user.update_attributes(:stripe_unique => customer.id, :active => 1, :level => 1)
 
 	  @number = session[:saved_number]
-	  @info_msg = Kptwilio.new(@number, "+12052676367", "Sweet! You've joined KeyPal. Text this number to store & retrieve keys.")
+	  @info_msg = Kptwilio.new(@number, "+12052676367", "Sweet! You've joined KeyPal. Text this number to store & retrieve keys. Text 'info' for more info/help.")
       @info_msg.send
 
 		rescue Stripe::CardError => e
