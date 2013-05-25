@@ -90,9 +90,16 @@ class UsersController < ApplicationController
       session[:user_id] = @user.id
 
       #CHECK HERE FOR WHETHER THEY ARE NEW SUBSCRIBER OR NOT (STRIPE)
-      
-      @info_msg = Kptwilio.new(@number, "+12052676367", "You're verified. Neat-o! Text this number to store & retrieve keys.")
-      @info_msg.send
+      if @user.stripe_unique && @user.active == 1
+        #active subs
+      else
+        #non-active subs
+        @info_msg = Kptwilio.new(@number, "+12052676367", "You're verified. Neat-o! Become a member to start storing your keys.")
+        @info_msg.send
+      end
+
+      #@info_msg = Kptwilio.new(@number, "+12052676367", "You're verified. Neat-o! Text this number to store & retrieve keys.")
+      #@info_msg.send
 
       #@info_msg = Kptwilio.new(@number, "+12052676367", "Store a key:\nkey password\n\nRetrieve a password:\nkey\n\nList all your keys:\nall\n\nVisit http://www.keypalapp.com/info for all commands.")
       #@info_msg.send
