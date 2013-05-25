@@ -27,9 +27,13 @@ class UsersController < ApplicationController
     saved_number = session[:saved_number]
     saved_encrypted_number = Digest::SHA1.hexdigest("#{saved_number}sm1thsbeach_21_wls")
 
+    logger.debug "#{saved_encrypted_number}"
+    logger.debug "#{@user.number}"
+
     if (session[:logged_in] && session[:logged_in] == true) && ( @user.number == saved_encrypted_number )
         #logged in
         @active = @user.active
+        logger.debug "#{@active}"
 
         respond_to do |format|
           format.html # show.html.erb
