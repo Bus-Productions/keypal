@@ -15,7 +15,7 @@ Keypal::Application.routes.draw do
 
   match 'charges/upgrade' => 'charges#upgrade', :as => "upgrade"
 
-  root :to => "users#index"
+  root :to => "users#index", :as => "users"
 
 
   resources :outbounds
