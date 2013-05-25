@@ -43,7 +43,7 @@ class ChargesController < ApplicationController
 	  	cu = Stripe::Customer.retrieve(@user.stripe_unique)
 		cu.cancel_subscription
 
-		@user.update_attributes(:stripe_unique => customer.id, :active => 0, :level => 0)
+		@user.update_attributes(:stripe_unique => cu.id, :active => 0, :level => 0)
 
 	end
 
@@ -55,7 +55,7 @@ class ChargesController < ApplicationController
 	  	cu = Stripe::Customer.retrieve(@user.stripe_unique)
 		cu.update_subscription(:plan => "unlimited", :prorate => true)
 
-		@user.update_attributes(:stripe_unique => customer.id, :active => 1, :level => 2)
+		@user.update_attributes(:stripe_unique => cu.id, :active => 1, :level => 2)
 
 	end
 
