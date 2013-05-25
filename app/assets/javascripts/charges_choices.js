@@ -1,4 +1,4 @@
-$('#starter').click( function() {
+$('#starter').bind( 'click', function() {
       
       var token = function(res) {
         var $input = $('<input type=hidden name=stripeToken />').val(res.id);
