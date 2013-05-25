@@ -60,6 +60,9 @@ class UsersController < ApplicationController
     number = number.gsub("]", "")
     number = number.gsub(".", "")
     number = number.gsub(",", "")
+    number = number.gsub("-", "")
+    number = number.gsub("_", "")
+    number.strip!
 
     full_number = "+1#{number}"
     encrypted_number = Digest::SHA1.hexdigest("#{full_number}sm1thsbeach_21_wls")
