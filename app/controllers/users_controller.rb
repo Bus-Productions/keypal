@@ -34,6 +34,8 @@ class UsersController < ApplicationController
 
     if ( @user.number == @saved_encrypted_number )
         #logged in
+        session[:user_id] = @user.id
+        
         respond_to do |format|
           format.html # show.html.erb
           format.json { render json: @user }
