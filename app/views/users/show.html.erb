@@ -1,39 +1,25 @@
+<p>For $2.49/month, you get to store up to 40 keys:</p>
+
+<%= form_tag charges_path do %>
+  <article>
+    <label class="amount">
+      <span>Amount: $2.49</span>
+    </label>
+  </article>
+
+  <script src="https://checkout.stripe.com/v2/checkout.js" class="stripe-button"
+          data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
+          data-description="KeyPal Subscription"
+          data-amount="2.49"></script>
+<% end %>
+
+<br/>
+<p>
+	*You will be automatically upgraded to our Unlimited Plan ($3.99/month) once you store more than 40 keys.
+</p>
+
+<br/>
 <p>Welcome (whoever you are).</p>
 <p>We don't know who you are. And that's a good thing. The only piece of information that ties you to us is your mobile phone number. And we encrypt it. We actually don't know what your number is. We can't see it. We don't want to see it. That way hackers can't see it.</p>
 <p>We encrypt everything you send us.</p>
 <p>You turn your number, keys, and passwords into gobbly-gook so that nobody knows your secrets.</p>
-
-<p>
-  <b>Account Status:</b>
-  <%= @user.active %>
-</p>
-
-<p>
-  <b>Account Plan:</b><br/>
-  Select a plan to activate your account:
-
-<%= form_tag charges_path do %>
-	<div class="btn-group">
-
-	  <% if @user.level == 1 %>
-	  	<button class="btn btn-primary disabled">Starter</button>
-	  <% else %>
-	  	<button id="starter" class="btn btn-primary" onclick="clickStarter();">Starter</button>
-	  <% end %>
-
-	  <% if @user.level == 2 %>
-	  	<button class="btn btn-primary disabled">Pro</button>
-	  <% else %>
-	  	<button class="btn btn-primary ">Pro</button>
-	  <% end %>
-
-	  <% if @user.level == 3 %>
-	  	<button class="btn btn-primary disabled">Platinum</button>
-	  <% else %>
-	  	<button class="btn btn-primary ">Platinum</button>
-	  <% end %>
-
-	</div>  
-<% end %>
-
-</p>

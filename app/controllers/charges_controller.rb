@@ -5,11 +5,10 @@ class ChargesController < ApplicationController
 
 	def create
 	  # Amount in cents
-	  @amount = 399
+	  @amount = 249
 
 	  customer = Stripe::Customer.create(
-	    :email => 'example@stripe.com',
-	    :plan => 'keypal_2',
+	    :plan => 'starter',
 	    :card  => params[:stripeToken]
 	  )
 
@@ -24,5 +23,11 @@ class ChargesController < ApplicationController
 	  flash[:error] = e.message
 	  redirect_to charges_path
 	end
+
+	user_id = session[:user_id]
+
+	@user = User.find_by_id(user_id)
+
+	@user.update_attribute(:stripe_unique, customer.id)
 
 end

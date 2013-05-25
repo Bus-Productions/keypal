@@ -87,7 +87,10 @@ class UsersController < ApplicationController
       #verified
       session[:logged_in] = true
       @user = User.find_by_number(encrypted_number)
+      session[:user_id] = @user.id
 
+      #CHECK HERE FOR WHETHER THEY ARE NEW SUBSCRIBER OR NOT (STRIPE)
+      
       @info_msg = Kptwilio.new(@number, "+12052676367", "You're verified. Neat-o! Text this number to store & retrieve keys.")
       @info_msg.send
 
