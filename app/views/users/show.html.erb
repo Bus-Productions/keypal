@@ -1,16 +1,22 @@
 <p>For $2.49/month, you get to store up to 40 keys:</p>
 
-<%= form_tag charges_path do %>
-  <article>
-    <label class="amount">
-      <span>Amount: $2.49</span>
-    </label>
-  </article>
+<% if @active == 1 %>
+	  <article>
+	    <%= link_to("Unsubscribe", cancel_path) %>
+	  </article>
+<% else %>
+	<%= form_tag charges_path do %>
+	  <article>
+	    <label class="amount">
+	      <span>Amount: $2.49</span>
+	    </label>
+	  </article>
 
-  <script src="https://checkout.stripe.com/v2/checkout.js" class="stripe-button"
-          data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
-          data-description="KeyPal Subscription"
-          data-amount="249"></script>
+	  <script src="https://checkout.stripe.com/v2/checkout.js" class="stripe-button"
+	          data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
+	          data-description="KeyPal Subscription"
+	          data-amount="249"></script>
+	<% end %>
 <% end %>
 
 <br/>

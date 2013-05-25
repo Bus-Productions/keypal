@@ -26,6 +26,8 @@ class UsersController < ApplicationController
 
     if session[:logged_in] && ( @user.number.to_i == session[:saved_number].to_i )
         #logged in
+        @active = @user.active
+        
         respond_to do |format|
           format.html # show.html.erb
           format.json { render json: @user }

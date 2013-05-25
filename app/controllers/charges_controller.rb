@@ -34,4 +34,30 @@ class ChargesController < ApplicationController
 
 	end
 
+	
+	def cancel
+		
+		user_id = session[:user_id]
+	  	@user = User.find_by_id(user_id)
+
+	  	cu = Stripe::Customer.retrieve(@user.stripe_unique)
+		cu.cancel_subscription
+
+		@user.update_attributes(:stripe_unique => customer.id, :active => 0, :level => 0)
+
+	end
+
+	def upgrade
+		
+		user_id = session[:user_id]
+	  	@user = User.find_by_id(user_id)
+
+	  	cu = Stripe::Customer.retrieve(@user.stripe_unique)
+		cu.update_subscription(:plan => "unlimited", :prorate => true)
+
+		@user.update_attributes(:stripe_unique => customer.id, :active => 1, :level => 2)
+
+	end
+
+
 end

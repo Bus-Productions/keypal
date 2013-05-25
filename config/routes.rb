@@ -11,6 +11,10 @@ Keypal::Application.routes.draw do
 
   match 'info' => 'requests#info', :as => "info"
 
+  match 'charges/cancel' => 'charges#cancel', :as => "cancel"
+
+  match 'charges/upgrade' => 'charges#upgrade', :as => "upgrade"
+
   root :to => "users#index"
 
 
