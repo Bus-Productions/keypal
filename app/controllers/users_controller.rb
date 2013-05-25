@@ -24,7 +24,10 @@ class UsersController < ApplicationController
     rescue ActiveRecord::RecordNotFound
       redirect_to(users_url, :notice => 'Record not found') and return
 
-    if (session[:logged_in] && session[:logged_in] == true) && ( @user.number.to_i == session[:saved_number].to_i )
+    saved_number = session[:saved_number]
+    saved_encrypted_number = Digest::SHA1.hexdigest("#{saved_number}sm1thsbeach_21_wls")
+
+    if (session[:logged_in] && session[:logged_in] == true) && ( @user.number == saved_encrypted_number )
         #logged in
         @active = @user.active
 
