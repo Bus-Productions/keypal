@@ -162,7 +162,7 @@ class RequestsController < ApplicationController
 
     else
 
-      @info_msg = Kptwilio.new(number, "+12052676367", "We could not find your account. Visit http://www.keypalapp.com to Join.")
+      @info_msg = Kptwilio.new(number, "+12052676367", "Hey! You must be new. Visit http://www.keypalapp.com to join KeyPal.")
       @info_msg.send
 
     end
@@ -243,7 +243,7 @@ class RequestsController < ApplicationController
 
   def info
     #something
-    
+
   end
 
 
