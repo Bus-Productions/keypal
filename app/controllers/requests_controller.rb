@@ -159,6 +159,20 @@ class RequestsController < ApplicationController
         @info_msg = Kptwilio.new(number, "+12052676367", "Groovy. We've got your password for '#{key_decryptedBlock}' stored safe and sound.")
         @info_msg.send
 
+        @user_keys = Key.find_all_by_user_id(user.id)
+        if @user_keys.count == 25
+          @info_msg = Kptwilio.new(number, "+12052676367", "You now have 25 keys on file. If you store more, your account will be automatically upgraded to hold unlimited keys.")
+          @info_msg.send   
+        elsif @user_keys.count == 26
+          #upgrade account
+          cu = Stripe::Customer.retrieve(user.stripe_unique)
+          cu.update_subscription(:plan => "unlimited", :prorate => true)
+          user.update_attributes(:stripe_unique => cu.id, :active => 1, :level => 2)
+
+          @info_msg = Kptwilio.new(number, "+12052676367", "Your account was automatically upgraded to hold unlimited keys for just $3.99/month.")
+          @info_msg.send   
+        end
+
       else
       
         @info_msg = Kptwilio.new(number, "+12052676367", "Unrecognized command. Text 'info' for more help or visit http://www.keypalapp.com/info for all commands.")

@@ -24,6 +24,12 @@ class ChargesController < ApplicationController
 	  @user = User.find_by_id(user_id)
 	  @user.update_attributes(:stripe_unique => customer.id, :active => 1, :level => 1)
 
+	  if session[:reference_id] && session[:reference_id] > 0
+	  	@ref_user = User.find_by_id(session[:reference_id])
+	  	cu = Stripe::Customer.retrieve(@ref_user.stripe_unique)
+		cu.update_subscription(:coupon => "freemonth")
+	  end
+
 	  @number = session[:saved_number]
 	  @info_msg = Kptwilio.new(@number, "+12052676367", "Sweet! You've joined KeyPal. Text this number to store & retrieve keys. Text 'info' for more info/help.")
       @info_msg.send

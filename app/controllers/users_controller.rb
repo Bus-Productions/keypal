@@ -3,7 +3,11 @@ class UsersController < ApplicationController
   # GET /users.json
   
   def index
+    
     @user = User.new
+    @reference_id = params[:ref]
+    session[:reference_id] = @reference_id
+
   end
 
 
@@ -121,6 +125,8 @@ class UsersController < ApplicationController
       #@info_msg.send
 
       redirect_to @user
+    else
+      redirect_to verify_path, notice: 'Your code did not match our verification code on file.'
     end
 
   end
