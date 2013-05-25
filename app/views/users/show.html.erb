@@ -17,7 +17,7 @@
 	  <% if @user.level == 1 %>
 	  	<button class="btn btn-primary disabled">Starter</button>
 	  <% else %>
-	  	<button id="starter" class="btn btn-primary ">Starter</button>
+	  	<button id="starter" class="btn btn-primary" onclick="clickStarter();">Starter</button>
 	  <% end %>
 
 	  <% if @user.level == 2 %>
