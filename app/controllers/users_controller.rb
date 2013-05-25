@@ -24,7 +24,7 @@ class UsersController < ApplicationController
     rescue ActiveRecord::RecordNotFound
       redirect_to(users_url, :notice => 'Record not found') and return
 
-    if session[:logged_in] && ( @user.number.to_i == session[:saved_number].to_i )
+    if (session[:logged_in] && session[:logged_in] == true) && ( @user.number.to_i == session[:saved_number].to_i )
         #logged in
         @active = @user.active
 
