@@ -10,7 +10,7 @@ class RequestsController < ApplicationController
       #handle the message
 
       if !user.active || user.active < 1
-        @info_msg = Kptwilio.new(number, "+12052676367", "We found your account, but you have to join in order to store/access keys. Go to http://www.keypalapp.com to join now!")
+        @info_msg = Kptwilio.new(number, "+12052676367", "We found your account, but you have to join in order to store/access keys. Go to https://www.keypalapp.com to join now!")
         @info_msg.send
         return false
       end
@@ -44,7 +44,7 @@ class RequestsController < ApplicationController
 
       if first_word == 'info' || first_word == 'help'
 
-        @info_msg = Kptwilio.new(number, "+12052676367", "Store a key:\nkey password\n\nRetrieve a password:\nkey\n\nList all your keys:\nall\n\nVisit http://www.keypalapp.com/info for all commands.")
+        @info_msg = Kptwilio.new(number, "+12052676367", "Store a key:\nkey password\n\nRetrieve a password:\nkey\n\nList all your keys:\nall\n\nVisit https://www.keypalapp.com/info for all commands.")
         @info_msg.send
 
       elsif first_word == 'all' || first_word == 'keys'
@@ -164,14 +164,14 @@ class RequestsController < ApplicationController
 
       else
       
-        @info_msg = Kptwilio.new(number, "+12052676367", "Unrecognized command. Text 'info' for more help or visit http://www.keypalapp.com/info for all commands.")
+        @info_msg = Kptwilio.new(number, "+12052676367", "Unrecognized command. Text 'info' for more help or visit https://www.keypalapp.com/info for all commands.")
         @info_msg.send
       
       end
 
     else
 
-      @info_msg = Kptwilio.new(number, "+12052676367", "Hey! You must be new. Visit http://www.keypalapp.com to join KeyPal.")
+      @info_msg = Kptwilio.new(number, "+12052676367", "Hey! You must be new. Visit https://www.keypalapp.com to join KeyPal.")
       @info_msg.send
 
     end
