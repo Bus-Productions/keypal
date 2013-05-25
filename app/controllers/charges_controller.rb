@@ -8,6 +8,7 @@ class ChargesController < ApplicationController
 	  @amount = 249
 
 	  customer = Stripe::Customer.create(
+	  	:email => 'test@test.com'
 	    :plan => 'starter',
 	    :card  => params[:stripeToken]
 	  )
@@ -26,7 +27,7 @@ class ChargesController < ApplicationController
 		rescue Stripe::CardError => e
 		  flash[:error] = e.message
 		  redirect_to charges_path
-		  
+
 	end
 
 end
