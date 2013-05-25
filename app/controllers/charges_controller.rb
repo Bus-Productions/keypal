@@ -24,6 +24,10 @@ class ChargesController < ApplicationController
 	  @user = User.find_by_id(user_id)
 	  @user.update_attributes(:stripe_unique => customer.id, :active => 1, :level => 1)
 
+	  @number = session[:saved_number]
+	  @info_msg = Kptwilio.new(@number, "+12052676367", "Sweet! You've joined KeyPal. Text this number to store & retrieve keys.")
+      @info_msg.send
+
 		rescue Stripe::CardError => e
 		  flash[:error] = e.message
 		  redirect_to charges_path
