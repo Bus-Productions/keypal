@@ -33,7 +33,7 @@ class UsersController < ApplicationController
           format.json { render json: @user }
         end
     else
-      redirect_to users_url
+      redirect_to home_url
     end
 
   end
