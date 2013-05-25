@@ -19,22 +19,17 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
+
+    @saved_number = session[:saved_number]
+    @saved_encrypted_number = Digest::SHA1.hexdigest("#{@saved_number}sm1thsbeach_21_wls")
+
     @user = User.find(params[:id])
 
-    rescue ActiveRecord::RecordNotFound
-      redirect_to(users_url, :notice => 'Record not found') and return
+    @match = (@user.number == @saved_encrypted_number)
+    @active = @user.active
 
-    saved_number = session[:saved_number]
-    saved_encrypted_number = Digest::SHA1.hexdigest("#{saved_number}sm1thsbeach_21_wls")
-
-    logger.debug "#{saved_encrypted_number}"
-    logger.debug "#{@user.number}"
-
-    if (session[:logged_in] && session[:logged_in] == true) && ( @user.number == saved_encrypted_number )
+    if ( @user.number == @saved_encrypted_number )
         #logged in
-        @active = @user.active
-        logger.debug "#{@active}"
-
         respond_to do |format|
           format.html # show.html.erb
           format.json { render json: @user }
@@ -42,6 +37,9 @@ class UsersController < ApplicationController
     else
       redirect_to home_url
     end
+
+    rescue ActiveRecord::RecordNotFound
+      redirect_to(home_url, :notice => 'Record not found') and return
 
   end
 
