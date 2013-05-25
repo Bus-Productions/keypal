@@ -12,7 +12,8 @@
   <b>Account Plan:</b><br/>
   Select a plan to activate your account:
 
-  	<div class="btn-group">
+<%= form_tag charges_path do %>
+	<div class="btn-group">
 
 	  <% if @user.level == 1 %>
 	  	<button class="btn btn-primary disabled">Starter</button>
@@ -32,5 +33,7 @@
 	  	<button class="btn btn-primary ">Platinum</button>
 	  <% end %>
 
-	</div>
+	</div>  
+<% end %>
+
 </p>

@@ -13,7 +13,7 @@ function clickStarter () {
         name:        'KeyPal Starter',
         description: 'The starter plan for KeyPal',
         plan: 		 'starter',
-        panelLabel:  'Checkout',
+        panelLabel:  'Subscribe',
         token:       token
       });
 
