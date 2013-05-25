@@ -9,6 +9,8 @@ Keypal::Application.routes.draw do
 
   match 'users/list_all' => 'users#list_all'
 
+  match 'info' => 'requests#info', :as => "info"
+
   root :to => "users#index"
 
 

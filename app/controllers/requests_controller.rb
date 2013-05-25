@@ -49,7 +49,7 @@ class RequestsController < ApplicationController
 
       if first_word == 'info' || first_word == 'help'
 
-        @info_msg = Kptwilio.new(number, "+12052676367", "Store a key:\nkey password\n\nRetrieve a password:\nkey\n\nList all your keys:\nall\n\nVisit http://www.keypalapp.com/help for all commands.")
+        @info_msg = Kptwilio.new(number, "+12052676367", "Store a key:\nkey password\n\nRetrieve a password:\nkey\n\nList all your keys:\nall\n\nVisit http://www.keypalapp.com/info for all commands.")
         @info_msg.send
 
       elsif first_word == 'all' || first_word == 'keys'
@@ -155,7 +155,7 @@ class RequestsController < ApplicationController
 
       else
       
-        @info_msg = Kptwilio.new(number, "+12052676367", "Unrecognized command. Text 'info' for more help or visit http://www.keypalapp.com/help for all commands.")
+        @info_msg = Kptwilio.new(number, "+12052676367", "Unrecognized command. Text 'info' for more help or visit http://www.keypalapp.com/info for all commands.")
         @info_msg.send
       
       end
@@ -238,6 +238,12 @@ class RequestsController < ApplicationController
       format.html { redirect_to requests_url }
       format.json { head :no_content }
     end
+  end
+
+
+  def info
+    #something
+    
   end
 
 
