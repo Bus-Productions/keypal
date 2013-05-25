@@ -23,6 +23,7 @@ class RequestsController < ApplicationController
       if !user.active || user.active < 1
         @info_msg = Kptwilio.new(number, "+12052676367", "We found your account, but you have to join in order to store/access keys. Go to http://www.keypalapp.com to join now!")
         @info_msg.send
+        return false
       end
 
       @body = params[:Body]
