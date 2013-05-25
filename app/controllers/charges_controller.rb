@@ -7,6 +7,9 @@ class ChargesController < ApplicationController
 	  # Amount in cents
 	  @amount = 249
 
+	  user_id = session[:user_id]
+	  @user = User.find_by_id(user_id)
+
 	  customer = Stripe::Customer.create(
 	  	:email => 'test@test.com',
 	    :plan => 'starter',
@@ -20,8 +23,6 @@ class ChargesController < ApplicationController
 	    :currency    => 'usd'
 	  )
 
-	  user_id = session[:user_id]
-	  @user = User.find_by_id(user_id)
 	  @user.update_attributes(:stripe_unique => customer.id, :active => 1, :level => 1)
 
 	  if session[:reference_id] && session[:reference_id] > 0
