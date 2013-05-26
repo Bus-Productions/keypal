@@ -10,18 +10,23 @@ class ChargesController < ApplicationController
 	  user_id = session[:user_id]
 	  @user = User.find_by_id(user_id)
 
-	  customer = Stripe::Customer.create(
-	  	:email => 'test@test.com',
-	    :plan => 'starter',
-	    :card  => params[:stripeToken]
-	  )
+	  customer = nil
+	  if @user.stripe_unique
+	  	customer = Stripe::Customer.retrieve(@user.stripe_unique)
+	  else
+	  	customer = Stripe::Customer.create(
+		  	:email => 'test@test.com',
+		    :plan => 'starter',
+		    :card  => params[:stripeToken]
+	    )
+	  end
 
-	  charge = Stripe::Charge.create(
-	    :customer    => customer.id,
-	    :amount      => @amount,
-	    :description => 'KeyPal Subscriber',
-	    :currency    => 'usd'
-	  )
+	  #charge = Stripe::Charge.create(
+	  #  :customer    => customer.id,
+	  #  :amount      => @amount,
+	  #  :description => 'KeyPal Subscriber',
+	  #  :currency    => 'usd'
+	  #)
 
 	  @user.update_attributes(:stripe_unique => customer.id, :active => 1, :level => 1)
 
