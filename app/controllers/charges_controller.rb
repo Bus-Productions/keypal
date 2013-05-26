@@ -10,16 +10,16 @@ class ChargesController < ApplicationController
 	  user_id = session[:user_id]
 	  @user = User.find_by_id(user_id)
 
-	  customer = nil
-	  if @user.stripe_unique
-	  	customer = Stripe::Customer.retrieve(@user.stripe_unique)
-	  else
+	  #customer = nil
+	  #if @user.stripe_unique
+	  #	customer = Stripe::Customer.retrieve(@user.stripe_unique)
+	  #else
 	  	customer = Stripe::Customer.create(
 		  	:email => 'test@test.com',
 		    :plan => 'starter',
 		    :card  => params[:stripeToken]
 	    )
-	  end
+	  #end
 
 	  #charge = Stripe::Charge.create(
 	  #  :customer    => customer.id,
